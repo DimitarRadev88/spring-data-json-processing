@@ -19,4 +19,14 @@ public interface UserRepository extends JpaRepository<User, Long> {
             """)
     List<User> findAllBySoldProductsBuyerNotEmpty();
 
+    @Query("""
+            FROM User u
+            JOIN FETCH u.soldProducts sold
+            WHERE u.id IN (
+                SELECT u.id FROM User u
+                JOIN u.soldProducts sold
+                WHERE sold.buyer IS NOT NULL
+            )
+            """)
+    List<User> findAllByHavingOneOrMoreSoldProductsBuyer();
 }

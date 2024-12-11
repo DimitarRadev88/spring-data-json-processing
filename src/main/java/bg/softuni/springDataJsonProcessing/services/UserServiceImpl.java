@@ -1,7 +1,6 @@
 package bg.softuni.springDataJsonProcessing.services;
 
-import bg.softuni.springDataJsonProcessing.dtos.UserDto;
-import bg.softuni.springDataJsonProcessing.dtos.UserWithSoldProductsDto;
+import bg.softuni.springDataJsonProcessing.dtos.*;
 import bg.softuni.springDataJsonProcessing.repositories.UserRepository;
 import bg.softuni.springDataJsonProcessing.services.interfaces.UserService;
 import bg.softuni.springDataJsonProcessing.models.User;
@@ -33,9 +32,33 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserWithSoldProductsDto> getUsersWithSuccessfullySoldProducts() {
-        return  userRepository.findAllBySoldProductsBuyerNotEmpty()
+        return userRepository.findAllBySoldProductsBuyerNotEmpty()
                 .stream()
                 .map(user -> modelMapper.map(user, UserWithSoldProductsDto.class))
                 .toList();
+    }
+
+    @Override
+    public UsersWrapperDto getUsersWithSoldProductsWrapper() {
+        List<UserWithSoldProductsWrapperDto> list = userRepository
+                .findAllByHavingOneOrMoreSoldProductsBuyer()
+                .stream()
+                .map(u -> {
+                    UserWithSoldProductsWrapperDto dto = modelMapper
+                            .map(u, UserWithSoldProductsWrapperDto.class);
+                    ProductWrapperDto productWrapperDto = new ProductWrapperDto();
+                    List<ProductDto> soldProductDtos = u.getSoldProducts().stream().map(sp -> modelMapper.map(sp, ProductDto.class)).toList();
+                    productWrapperDto.setCount(soldProductDtos.size());
+                    productWrapperDto.setProducts(soldProductDtos);
+                    dto.setSoldProducts(productWrapperDto);
+                    return dto;
+                })
+                .toList();
+
+        UsersWrapperDto wrapperDto = new UsersWrapperDto();
+        wrapperDto.setUsers(list);
+        wrapperDto.setUsersCount(list.size());
+
+        return wrapperDto;
     }
 }
