@@ -73,7 +73,7 @@ public class ProductServiceImpl implements ProductService {
         LongStream.
                 rangeClosed(1L, numberOfCategories).
                 forEach(n -> categories.add(categoryRepository.findById(ThreadLocalRandom.current()
-                                .nextLong(categoryRepository.count()))
+                                .nextLong(categoryRepository.count()) +1)
                         .orElse(null)));
 
         return categories;

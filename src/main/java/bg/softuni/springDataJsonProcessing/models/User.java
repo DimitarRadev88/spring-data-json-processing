@@ -7,12 +7,11 @@ import java.util.List;
 @Entity
 @Table(name = "users")
 public class User extends BaseEntity {
-
     private Integer age;
     private String firstName;
     private String lastName;
-    private List<Product> productsSold;
-    private List<Product> productsBought;
+    private List<Product> soldProducts;
+    private List<Product> boughtProducts;
     private List<User> friends;
 
     public User() {
@@ -46,21 +45,21 @@ public class User extends BaseEntity {
     }
 
     @OneToMany(mappedBy = "seller")
-    public List<Product> getProductsSold() {
-        return productsSold;
+    public List<Product> getSoldProducts() {
+        return soldProducts;
     }
 
-    public void setProductsSold(List<Product> productsSold) {
-        this.productsSold = productsSold;
+    public void setSoldProducts(List<Product> soldProducts) {
+        this.soldProducts = soldProducts;
     }
 
     @OneToMany(mappedBy = "buyer")
-    public List<Product> getProductsBought() {
-        return productsBought;
+    public List<Product> getBoughtProducts() {
+        return boughtProducts;
     }
 
-    public void setProductsBought(List<Product> productsBought) {
-        this.productsBought = productsBought;
+    public void setBoughtProducts(List<Product> boughtProducts) {
+        this.boughtProducts = boughtProducts;
     }
 
     @ManyToMany

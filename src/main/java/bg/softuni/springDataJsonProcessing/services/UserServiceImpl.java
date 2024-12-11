@@ -1,6 +1,7 @@
 package bg.softuni.springDataJsonProcessing.services;
 
 import bg.softuni.springDataJsonProcessing.dtos.UserDto;
+import bg.softuni.springDataJsonProcessing.dtos.UserWithSoldProductsDto;
 import bg.softuni.springDataJsonProcessing.repositories.UserRepository;
 import bg.softuni.springDataJsonProcessing.services.interfaces.UserService;
 import bg.softuni.springDataJsonProcessing.models.User;
@@ -28,5 +29,13 @@ public class UserServiceImpl implements UserService {
         List<User> users = Arrays.stream(userDtos).map(dto -> modelMapper.map(dto, User.class)).toList();
 
         userRepository.saveAll(users);
+    }
+
+    @Override
+    public List<UserWithSoldProductsDto> getUsersWithSuccessfullySoldProducts() {
+        return  userRepository.findAllBySoldProductsBuyerNotEmpty()
+                .stream()
+                .map(user -> modelMapper.map(user, UserWithSoldProductsDto.class))
+                .toList();
     }
 }

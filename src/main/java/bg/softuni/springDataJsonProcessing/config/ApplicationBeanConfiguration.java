@@ -1,6 +1,8 @@
 package bg.softuni.springDataJsonProcessing.config;
 
+import bg.softuni.springDataJsonProcessing.dtos.CategoryStatisticsDto;
 import bg.softuni.springDataJsonProcessing.dtos.ProductWithSellerFullNameDto;
+import bg.softuni.springDataJsonProcessing.models.Category;
 import bg.softuni.springDataJsonProcessing.models.Product;
 import bg.softuni.springDataJsonProcessing.models.User;
 import bg.softuni.springDataJsonProcessing.repositories.UserRepository;
@@ -14,6 +16,8 @@ import org.springframework.context.annotation.Configuration;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.math.BigDecimal;
+import java.util.List;
 
 @Configuration
 public class ApplicationBeanConfiguration {
@@ -60,8 +64,8 @@ public class ApplicationBeanConfiguration {
 
     private void addMappings() {
         productToProductWithSellerFullNameDto();
-
     }
+
 
     private void productToProductWithSellerFullNameDto() {
         TypeMap<Product, ProductWithSellerFullNameDto> typeMap =

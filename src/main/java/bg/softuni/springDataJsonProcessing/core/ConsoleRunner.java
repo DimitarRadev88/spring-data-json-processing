@@ -1,9 +1,6 @@
 package bg.softuni.springDataJsonProcessing.core;
 
-import bg.softuni.springDataJsonProcessing.dtos.CategoryDto;
-import bg.softuni.springDataJsonProcessing.dtos.ProductDto;
-import bg.softuni.springDataJsonProcessing.dtos.ProductWithSellerFullNameDto;
-import bg.softuni.springDataJsonProcessing.dtos.UserDto;
+import bg.softuni.springDataJsonProcessing.dtos.*;
 import bg.softuni.springDataJsonProcessing.services.interfaces.CategoryService;
 import bg.softuni.springDataJsonProcessing.services.interfaces.ProductService;
 import bg.softuni.springDataJsonProcessing.services.interfaces.UserService;
@@ -47,7 +44,26 @@ public class ConsoleRunner implements CommandLineRunner {
     public void run(String... args) throws Exception {
 //        seedData();
         productsInRange();
+        successfullySoldProducts();
+        categoriesByProductsCount();
+    }
 
+    private void categoriesByProductsCount() throws IOException {
+        List<CategoryStatisticsDto> categories = categoryService.getCategoriesByProductCount();
+
+        String json = gson.toJson(categories);
+
+        Files.writeString(Path.of(RESOURCES_JSON_FILES + "categories-by-products.json"), json);
+
+    }
+
+    private void successfullySoldProducts() throws IOException {
+        List<UserWithSoldProductsDto> usersWithSoldProducts = userService
+                .getUsersWithSuccessfullySoldProducts();
+
+        String json = gson.toJson(usersWithSoldProducts);
+
+        Files.writeString(Path.of(RESOURCES_JSON_FILES + "users-sold-produts.json"), json);
     }
 
     private void productsInRange() throws IOException {

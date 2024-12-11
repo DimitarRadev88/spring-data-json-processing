@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "products")
@@ -37,7 +36,7 @@ public class Product extends BaseEntity {
         this.price = price;
     }
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     public User getBuyer() {
         return buyer;
     }
@@ -46,7 +45,7 @@ public class Product extends BaseEntity {
         this.buyer = buyer;
     }
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     public User getSeller() {
         return seller;
     }
