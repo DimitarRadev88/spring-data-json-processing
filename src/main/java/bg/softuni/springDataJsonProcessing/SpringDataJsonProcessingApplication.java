@@ -1,4 +1,4 @@
-package bg.softuni.springdatajsonprocessing;
+package bg.softuni.springDataJsonProcessing;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
