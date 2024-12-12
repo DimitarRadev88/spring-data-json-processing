@@ -57,9 +57,8 @@ public class ApplicationBeanConfiguration {
     public ModelMapper getModelMapperInstance() {
         if (modelMapper == null) {
             modelMapper = new ModelMapper();
+            addMappings();
         }
-
-        addMappings();
 
         return modelMapper;
     }
